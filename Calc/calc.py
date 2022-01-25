@@ -1,4 +1,8 @@
 #СОЗДАЕМ КАЛЬКУЛЯТОР
+#TODO:докарячить фокус клавиш и подсветку (под мышкой)
+#TODO:добавить кнопки памяти
+#TODO:добавить верхний информационный надэкранчик, отображающий промежуточные итоги и числа в памяти
+#TODO:подумать о функциональных вкладках
 
 import tkinter as tk
 from tkinter import messagebox
@@ -10,7 +14,7 @@ def add_digit(digit): #функция добавления цифр
     calc.delete(0,tk.END)
     calc.insert(0, value+digit)
 
-def add_operation(operation): #функция добавления операторов
+def add_operation(operation): #функция добавления операторов TODO: добавить  новых операторов
     value = calc.get()
     if value[-1] in '-+*/':
         value = value[:-1]
@@ -19,6 +23,12 @@ def add_operation(operation): #функция добавления операт�
         value = calc.get()
     calc.delete(0,tk.END)
     calc.insert(0, value+operation)
+
+def add_comma():  #функция добавления десятичного разделителя TODO: добавить функционал десятичного разделителя
+    value = calc.get()
+#    if value[-1] == ',':
+    calc.insert(0, value+',')
+
 
 def calculate():  #функция подсчета
     value = calc.get()
@@ -55,6 +65,11 @@ def make_clear_button(operation): #функция создания кнопки 
     return tk.Button(text=operation, bd=5,font=('Arial',13), fg='red',
                      command=clear)
 
+def make_comma_button(comma): #функция создания десятичного разделителя ','
+    return tk.Button(text=comma, bd=5,font=('Arial',13), fg='red',
+                     command=add_comma)
+
+
 def press_key(event): #функция перехвата клавиатуры
     print(event.char)
     if event.char.isdigit():
@@ -66,14 +81,14 @@ def press_key(event): #функция перехвата клавиатуры
 
 
 win = tk.Tk()
-win.geometry(f"240x280+100+200")
+win.geometry(f"300x280+100+200")
 win['bg'] = '#ffe5b4'
 win.title('Калькулятор')
 win.bind('<Key>', press_key)
 
-calc = tk.Entry(win, justify=tk.RIGHT, font=('Arial',15),width=15)
+calc = tk.Entry(win, justify=tk.RIGHT, font=('Arial',15),width=15) #TODO: добавить разделители пробелы между разрядами
 calc.insert(0, '0')
-calc.grid(row=0, column=0, columnspan=4, stick='we', padx=5, pady=5)
+calc.grid(row=0, column=0, columnspan=5, stick='we', padx=5, pady=5)
 
 make_digit_button('1').grid(row=1, column=0, stick='wens', padx=5, pady=5)
 make_digit_button('2').grid(row=1, column=1, stick='wens', padx=5, pady=5)
@@ -92,13 +107,15 @@ make_operation_button('*').grid(row=3, column=3, stick='wens', padx=5, pady=5)
 make_operation_button('/').grid(row=4, column=3, stick='wens', padx=5, pady=5)
 
 make_calc_button('=').grid(row=4, column=2, stick='wens', padx=5, pady=5)
-make_clear_button('C').grid(row=4, column=1, stick='wens', padx=5, pady=5)
+make_clear_button('C').grid(row=1, column=4, stick='wens', padx=5, pady=5)
+make_comma_button(',').grid(row=4, column=1, stick='wens', padx=5, pady=5)
 
 
 win.grid_columnconfigure(0, minsize=60)
 win.grid_columnconfigure(1, minsize=60)
 win.grid_columnconfigure(2, minsize=60)
 win.grid_columnconfigure(3, minsize=60)
+win.grid_columnconfigure(4, minsize=60)
 
 win.grid_rowconfigure(1, minsize=60)
 win.grid_rowconfigure(2, minsize=60)
