@@ -3,14 +3,14 @@
 import tkinter as tk
 from tkinter import messagebox
 
-def add_digit(digit):
+def add_digit(digit): #функция добавления цифр
     value = calc.get()
     if value[0]=='0' and len(value)==1:
         value = value[1:]
     calc.delete(0,tk.END)
     calc.insert(0, value+digit)
 
-def add_operation(operation):
+def add_operation(operation): #функция добавления операторов
     value = calc.get()
     if value[-1] in '-+*/':
         value = value[:-1]
@@ -20,7 +20,7 @@ def add_operation(operation):
     calc.delete(0,tk.END)
     calc.insert(0, value+operation)
 
-def calculate():
+def calculate():  #функция подсчета
     value = calc.get()
     if value[-1] in '+-*/':
         value = value+value[:-1]
@@ -36,26 +36,26 @@ def calculate():
 
 
 
-def clear():
+def clear(): #функция сброса/очистки
     calc.delete(0, tk.END)
     calc.insert(0,0)
 
-def make_digit_button(digit):
+def make_digit_button(digit): #функция создания кнопок цифр
     return tk.Button(text=digit, bd=5,font=('Arial',13), command=lambda : add_digit(digit))
 
-def make_operation_button(operation):
+def make_operation_button(operation): #функция создания кнопок операторов
     return tk.Button(text=operation, bd=5,font=('Arial',13), fg='red',
                      command=lambda : add_operation(operation))
 
-def make_calc_button(operation):
+def make_calc_button(operation): #функция создания кнопки '='
     return tk.Button(text=operation, bd=5,font=('Arial',13), fg='red',
                      command=calculate)
 
-def make_clear_button(operation):
+def make_clear_button(operation): #функция создания кнопки 'C'
     return tk.Button(text=operation, bd=5,font=('Arial',13), fg='red',
                      command=clear)
 
-def press_key(event):
+def press_key(event): #функция перехвата клавиатуры
     print(event.char)
     if event.char.isdigit():
         add_digit(event.char)
@@ -67,7 +67,7 @@ def press_key(event):
 
 win = tk.Tk()
 win.geometry(f"240x280+100+200")
-win['bg'] = '#33ffe6'
+win['bg'] = '#ffe5b4'
 win.title('Калькулятор')
 win.bind('<Key>', press_key)
 
